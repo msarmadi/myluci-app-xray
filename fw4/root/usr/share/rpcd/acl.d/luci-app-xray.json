@@ -4,7 +4,10 @@
         "read": {
             "uci": [
                 "xray_fw4"
-            ]
+            ],
+            "ubus": {
+                "http": [ "get" ]
+            }
         },
         "write": {
             "uci": [

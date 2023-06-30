@@ -1,12 +1,21 @@
 'use strict';
-'require view';
-'require uci';
 'require form';
 'require fs';
 'require network';
+'require rpc';
 'require tools.widgets as widgets';
+'require uci';
+'require view';
 
 const variant = "xray_fw4";
+
+const http_get = rpc.declare({
+    object: 'http',
+    method: 'get',
+    params: ['addr', 'port', 'path', 'headers', 'format'],
+    expect: { '': {} }
+});
+
 
 function validate_object(id, a) {
     if (a == "") {
@@ -249,7 +258,8 @@ return view.extend({
         return Promise.all([
             uci.load(variant),
             fs.list("/usr/share/xray"),
-            network.getHostHints()
+            network.getHostHints(),
+            http_get("127.0.0.1", 18888, "/debug/vars", [], "json")
         ])
     },
 
